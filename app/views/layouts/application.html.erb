@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>777 Free Games</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:url" content="<%= @og_url %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="<%= @og_title %>" />
+    <meta property="og:description" content="<%= @og_description %>" />
+    <meta property="og:image" content="<%= @og_image %>" />
+    <meta property="fb:app_id" content="1686490478045370" />
+  </head>
+  <%= render "layouts/post_head" %>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-light bg-faded">
+        <a class="navbar-brand" href="#">
+          <img src="<%= image_url 'brand/header_image.png' %>" width="60" class="d-inline-block align-top" alt="">
+          777 Free Games
+        </a>
+      </nav>
+      <%= yield %>
+    </div>
+    <%= render "layouts/pre_body_close" %>
+  </body>
+</html>

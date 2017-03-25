@@ -1,0 +1,200 @@
+//= require easel
+//= require tween
+
+
+function MainWhackATrump() {
+  var tracker = new SevenTracker('whack-a-trump');
+  var GAME_WIDTH = 480;
+  var GAME_HEIGHT = 320;
+  var LEVEL_SPEEDS = [
+    1000,
+    750,
+    500
+  ];
+  var NUM_HOLES = 8;
+  var HOLE_COORDINATES = [
+    [80, 11],
+    [198, 51],
+    [338, 34],
+    [70, 110],
+    [225, 136],
+    [376, 96],
+    [142, 211],
+    [356, 186]
+  ];
+
+  var Tween = createjs.Tween;
+
+  //FB Share Button
+  function getFBShareButton() {
+    var shareButton = new createjs.Bitmap('<%= asset_url 'whack_a_trump/fb-like.png' %>');
+    shareButton.addEventListener('click', function() {
+      if (FB && FB.ui) {
+        FB.ui({
+          href: window.location.href,
+          method: 'share'
+        });
+      }
+    });
+    return shareButton;
+  }
+
+  /*
+   * View Code
+  */
+  function createTitleViewContainer() {
+    var titleBackGround = new createjs.Bitmap('<%= asset_url 'whack_a_trump/title-bg.jpg' %>');
+    var playButton = new createjs.Bitmap('<%= asset_url 'whack_a_trump/play-btn.png' %>');
+    playButton.addEventListener('click', function() {
+      playGameFromTitleView();
+    });
+    playButton.x = GAME_WIDTH / 2 - 20;
+    playButton.y = GAME_HEIGHT - 80;
+    var container = new createjs.Container()
+    container.addChild(titleBackGround);
+    container.addChild(playButton);
+    return container;
+  }
+
+  function createGameViewContainer() {
+    var gameBackGround = new createjs.Bitmap('<%= asset_url 'whack_a_trump/game-bg.png' %>');
+    var container = new createjs.Container();
+    container.addChild(gameBackGround);
+    return container;
+  }
+
+  function createGameResultsViewContainer(score, max, level, replayHandler) {
+    var container = new createjs.Container();
+    var fill = new createjs.Graphics()
+      .beginFill('#000')
+      .drawRect(0, 0, 300, 200);
+    var shape = new createjs.Shape(fill);
+    container.addChild(shape);
+    var score = new createjs.Text('Your Score: ' + score + '/' + max, '20px Arial', '#fff');
+    score.x = 75;
+    score.y = 10;
+    container.addChild(score);
+    var playAgainImagePath;
+    if (level === (LEVEL_SPEEDS.length - 1)) {
+      playAgainImagePath = '<%= asset_url 'whack_a_trump/play-again.png' %>';
+    } else {
+      playAgainImagePath = '<%= asset_url 'whack_a_trump/next-level.png' %>';
+    }
+    var playAgain = new createjs.Bitmap(playAgainImagePath);
+    playAgain.addEventListener('click', function(){
+      var playThisLevel = (level + 1) % LEVEL_SPEEDS.length;
+      replayHandler(playThisLevel);
+    });
+    playAgain.x = 75;
+    playAgain.y = 75;
+    container.addChild(playAgain);
+    container.x = 75;
+    container.y = 75;
+    var fbShareButton = getFBShareButton();
+    fbShareButton.x = 100;
+    fbShareButton.y = 140;
+    container.addChild(fbShareButton);
+    return container;
+  }
+
+  var titleView = createTitleViewContainer();
+  var gameView = createGameViewContainer();
+
+  var stage = new createjs.Stage('WhackATrump');
+  createjs.Ticker.setFPS(30);
+  createjs.Ticker.addEventListener('tick', stage);
+
+  /*
+   * State transition code
+  */
+createGameResultsViewContainer
+  function playGameFromTitleView() {
+    Tween.get(titleView).to({ x: -1 * GAME_WIDTH}, 500)
+      .call(function() {
+        playGame(10, 0);
+      });
+  }
+
+  function showTitleScreen() {
+    stage.addChild(gameView);
+    stage.addChild(titleView);
+    stage.update();
+  }
+
+  //on load
+  showTitleScreen();
+
+  /*
+   * Whack a trump game
+   */
+  function playGame(numberOfTrumps, level) {
+    tracker.track('Game Start', {
+      level: level,
+      possiblePoints: numberOfTrumps
+    });
+    var coords = HOLE_COORDINATES;
+    var trumpsHit = 0;
+    var lastTrump;
+    var score = new createjs.Text('0' + '/' + numberOfTrumps, 'bold 15px Arial', '#EEE')
+    score.x = 58
+    score.y = 21
+    stage.addChild(score);
+
+    function cleanup() {
+      stage.removeChild(score);
+      score = null;
+      stage.update();
+    }
+
+    function viewResults(hits) {
+      tracker.track('Game Finish', {
+        score: hits,
+        possiblePoints: numberOfTrumps,
+        level: level
+      });
+      var resultsAlert = createGameResultsViewContainer(hits, numberOfTrumps, level, function playAgainHandler(playThisLevel) {
+        cleanup();
+        stage.removeChild(resultsAlert);
+        playGame(numberOfTrumps, playThisLevel);
+      });
+      stage.addChild(resultsAlert);
+      stage.update();
+    }
+
+    function round(count) {
+      if (lastTrump !== null) {
+        stage.removeChild(lastTrump);
+        stage.update();
+        lastTrump = null;
+      }
+      if (count >= numberOfTrumps) {
+        viewResults(trumpsHit);
+        return;
+      }
+      var randomPos = Math.floor(Math.random() * NUM_HOLES);
+      var trump = new createjs.Bitmap('<%= image_url "whack_a_trump/donald.png" %>');
+      trump.x = coords[randomPos][0];
+      trump.y = coords[randomPos][1];
+      stage.addChild(trump);
+      trump.addEventListener('click', function() {
+        trumpsHit++;
+        score.text = trumpsHit + '/' + numberOfTrumps;
+        stage.removeChild(lastTrump);
+        lastTrump = null;
+        stage.update();
+      });
+      lastTrump = trump;
+      lastTrump.scaleY = 0.3;
+      lastTrump.y += 42;
+      stage.update();
+      var speed = LEVEL_SPEEDS[level];
+      Tween.get(lastTrump).to({
+        scaleY: 1,
+        y: coords[randomPos][1]
+      }, 200).wait(speed).call(function() {
+        round(count + 1);
+      });
+    }
+    round(0);
+  }
+}

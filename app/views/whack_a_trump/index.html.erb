@@ -1,0 +1,14 @@
+<style>*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
+
+<span id="widthwarning"></span>
+<canvas id="WhackATrump" width="480" height="320"></canvas>
+
+<script>
+  $(document).ready(window.MainWhackATrump);
+  if (window.innerWidth < 450) {
+    $('#widthwarning').html('Try rotating phone for the best experience');
+  }
+  $(window).on("orientationchange",function(){
+    $('#widthwarning').html('');
+  });
+</script>
