@@ -7,6 +7,7 @@
       <title>Resist Games</title>
     <%end%>
     <%= csrf_meta_tags %>
+    <%= favicon_link_tag(source=image_url('brand/logo_square.png')) %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,8 +25,9 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
-          <img src="<%= image_url 'brand/header_image.png' %>" width="300" class="d-inline-block align-top" alt="">
+        <a class="navbar-brand" href="/">
+          <img src="<%= image_url 'brand/logo_square.png' %>" height="50px" class="d-inline-block" alt="">
+          Resist Games
         </a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
