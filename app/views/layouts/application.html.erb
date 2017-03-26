@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>777 Free Games</title>
+    <% if @title %>
+      <title><%= @title %> | Resist Games</title>
+    <%else%>
+      <title>Resist Games</title>
+    <%end%>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -20,7 +24,7 @@
       <nav class="navbar navbar-light bg-faded">
         <a class="navbar-brand" href="#">
           <img src="<%= image_url 'brand/header_image.png' %>" width="60" class="d-inline-block align-top" alt="">
-          777 Free Games
+          Resist Games
         </a>
       </nav>
       <%= yield %>
