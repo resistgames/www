@@ -20,13 +20,14 @@
   </head>
   <%= render "layouts/post_head" %>
   <body>
-    <div class="container">
-      <nav class="navbar navbar-light bg-faded">
+    <nav class="navbar navbar-light bg-faded">
+      <div class="container">
         <a class="navbar-brand" href="#">
-          <img src="<%= image_url 'brand/header_image.png' %>" width="60" class="d-inline-block align-top" alt="">
           Resist Games
         </a>
-      </nav>
+      </div>
+    </nav>
+    <div class="container">
       <%= yield %>
     </div>
     <%= render "layouts/pre_body_close" %>
