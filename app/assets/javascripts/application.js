@@ -16,5 +16,3 @@
 //= require tether
 //= require bootstrap
 //= require seventracker
-//= require whack_a_trump
-//= require_tree .

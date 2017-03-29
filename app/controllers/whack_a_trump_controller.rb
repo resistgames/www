@@ -5,5 +5,8 @@ class WhackATrumpController < ApplicationController
     @og_description = "How many times can you hit Donald Trump? Try your luck in Whack-A-Trump. A Wac-A-Mole like game."
     @og_image = view_context.image_url "whack_a_trump/ogshare.png"
     @title = "Whack-A-Trump"
+    @page_specific_javascript = [
+      'whack_a_trump'
+    ]
   end
 end
