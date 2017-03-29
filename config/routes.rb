@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   #get '/about' => 'home#about'
   get '/join' => 'home#join'
   get '/thankyou' => 'home#thankyou'
+  # Games
   # Get Whack a Trump
   get 'whack-a-trump' => 'whack_a_trump#index'
+  get 'games/choose-your-own-adventure/:slug' => 'choose_your_adventure#index'
 end
