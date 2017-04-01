@@ -1,0 +1,26 @@
+//= require easel
+//= require tween
+function cya() {
+  function width() {
+    return window.innerWidth;
+  }
+  function height() {
+    return window.innerHeight - document.getElementById("ChooseYourAdventure").offsetTop;
+  }
+  function resizeCanvas(stage) {
+    stage.canvas.width = width();
+    stage.canvas.height = height();
+  }
+  var stage = new createjs.Stage("ChooseYourAdventure");
+  var fill = new createjs.Graphics()
+    .beginFill('#000')
+    .drawRect(0, 0, width(), height());
+  var shape = new createjs.Shape(fill);
+  var container = new createjs.Container();
+  container.addChild(shape);
+  stage.addChild(container);
+  createjs.Ticker.setFPS(30);
+  createjs.Ticker.addEventListener('tick', stage);
+
+  resizeCanvas(stage);
+}

@@ -52,9 +52,13 @@
         </div>
       </nav>
     </div>
-    <div class="container">
+    <% if @no_container %>
       <%= yield %>
-    </div>
+    <% else %>
+      <div class="container">
+        <%= yield %>
+      </div>
+    <% end %>
     <%= render "layouts/pre_body_close" %>
   </body>
 </html>
