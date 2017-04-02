@@ -7,6 +7,7 @@ class ChooseYourAdventureController < ApplicationController
     ]
     @game_json = ({
       :title => @slug,
+      :fontColor => '#fff',
       :description => "You are a new recruit of Anonymous. You must prove your worth by hacking to the top of government. You will succeed after making your way through the presidential line of succession and stopping the Trump administration for good.",
       :instructions => "Follow the story and choose what you think is required to hack the target. Becareful, as the wrong descision will result in jail time.",
       :stages => [{

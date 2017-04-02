@@ -7,6 +7,9 @@ function cya(gameData) {
   function height() {
     return window.innerHeight - document.getElementById("ChooseYourAdventure").offsetTop;
   }
+  function percent(amount) {
+    return height() * (amount / 100);
+  }
   function resizeCanvas(stage) {
     stage.canvas.width = width();
     stage.canvas.height = height();
@@ -21,6 +24,22 @@ function cya(gameData) {
   stage.addChild(container);
   createjs.Ticker.setFPS(30);
   createjs.Ticker.addEventListener('tick', stage);
-
   resizeCanvas(stage);
+
+  function getMainScreen() {
+    var mainScreenContainer = new createjs.Container();
+    var title = new createjs.Text(gameData.title, "20px Arial", gameData.fontColor);
+    var titleBounds = title.getBounds();
+    title.x = (width() - titleBounds.width) / 2;
+    title.y = percent(3);
+    mainScreenContainer.addChild(title);
+    var description = new createjs.Text(gameData.description, "12px Arial", gameData.fontColor);
+    description.lineWidth = 300;
+    var descriptionBounds = description.getBounds();
+    description.x = (width() - descriptionBounds.width) / 2;
+    description.y = percent(15);
+    mainScreenContainer.addChild(description);
+    return mainScreenContainer;
+  }
+  stage.addChild(getMainScreen());
 }
