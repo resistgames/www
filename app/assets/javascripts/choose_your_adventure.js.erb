@@ -7,8 +7,14 @@ function cya(gameData) {
   function height() {
     return window.innerHeight - document.getElementById("ChooseYourAdventure").offsetTop;
   }
-  function percent(amount) {
-    return height() * (amount / 100);
+  function percent(fn, amount) {
+    return fn() * (amount / 100);
+  }
+  function percentY(amount) {
+    return percent(height, amount);
+  }
+  function percentX(amount) {
+    return percent(width, amount);
   }
   function resizeCanvas(stage) {
     stage.canvas.width = width();
@@ -31,14 +37,19 @@ function cya(gameData) {
     var title = new createjs.Text(gameData.title, "20px Arial", gameData.fontColor);
     var titleBounds = title.getBounds();
     title.x = (width() - titleBounds.width) / 2;
-    title.y = percent(3);
+    title.y = percentY(3);
     mainScreenContainer.addChild(title);
-    var description = new createjs.Text(gameData.description, "12px Arial", gameData.fontColor);
-    description.lineWidth = 300;
+    var description = new createjs.Text(gameData.description, "18px Arial", gameData.fontColor);
+    description.lineWidth = width() - 20;
     var descriptionBounds = description.getBounds();
     description.x = (width() - descriptionBounds.width) / 2;
-    description.y = percent(15);
+    description.y = percentY(15);
     mainScreenContainer.addChild(description);
+    var playButton = new createjs.Text('Play', '25px Arial', '#ADD8E6');
+    var playButtonBounds = playButton.getBounds();
+    playButton.x = (width() - playButtonBounds.width) / 2;
+    playButton.y = percentY(90);
+    mainScreenContainer.addChild(playButton);
     return mainScreenContainer;
   }
   stage.addChild(getMainScreen());
