@@ -1,5 +1,6 @@
 //= require easel
 //= require tween
+//= require lodash.core
 function cya(gameData) {
   function width() {
     return window.innerWidth;
@@ -77,6 +78,15 @@ function cya(gameData) {
     var nodeContainer = new createjs.Container();
     if (nodeId) {
       //The specific node is known
+      var nodeData = _.find(levelData.nodes, {
+        id: nodeId
+      });
+      var description = new createjs.Text(nodeData.description, "18px Arial", gameData.fontColor);
+      description.lineWidth = width() - 20;
+      var descriptionBounds = description.getBounds();
+      description.x = (width() - descriptionBounds.width) / 2;
+      description.y = percentY(10);
+      nodeContainer.addChild(description);
     } else {
       //This is a title screen for the stage + level
       var title = new createjs.Text(stageData.name, "20px Arial", gameData.fontColor);
@@ -84,11 +94,16 @@ function cya(gameData) {
       title.x = (width() - titleBounds.width) / 2;
       title.y = percentY(3);
       nodeContainer.addChild(title);
+      var subTitle = new createjs.Text(levelData.name, "20px Arial", gameData.fontColor);
+      var subTitleBounds = subTitle.getBounds();
+      subTitle.x = (width() - subTitleBounds.width) / 2;
+      subTitle.y = percentY(8);
+      nodeContainer.addChild(subTitle);
       var description = new createjs.Text(levelData.description, "18px Arial", gameData.fontColor);
       description.lineWidth = width() - 20;
       var descriptionBounds = description.getBounds();
       description.x = (width() - descriptionBounds.width) / 2;
-      description.y = percentY(15);
+      description.y = percentY(20);
       nodeContainer.addChild(description);
       var playButton = new createjs.Text('Play', '25px Arial', '#ADD8E6');
       var playButtonBounds = playButton.getBounds();
