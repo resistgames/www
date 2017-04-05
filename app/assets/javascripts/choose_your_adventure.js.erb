@@ -87,6 +87,16 @@ function cya(gameData) {
       description.x = (width() - descriptionBounds.width) / 2;
       description.y = percentY(10);
       nodeContainer.addChild(description);
+      _.each(nodeData.options.reverse(), function(option, i) {
+        var text = new createjs.Text(option.text, "14px Arial", gameData.fontColor);
+        text.lineWidth = width() - 20;
+        text.x = (width() - text.getBounds().width) / 2;
+        text.y = percentY(90 - (i * 8));
+        text.addEventListener('click', function() {
+          displayNode(gameStage, level, option.ref);
+        });
+        nodeContainer.addChild(text);
+      });
     } else {
       //This is a title screen for the stage + level
       var title = new createjs.Text(stageData.name, "20px Arial", gameData.fontColor);
