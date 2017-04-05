@@ -66,17 +66,25 @@ function cya(gameData) {
   var currentNodeContainer;
 
   function displayNode(gameStage, level, nodeId) {
+    var stageData = gameData.stages[gameStage];
+    if (!stageData) {
+      throw 'No stage data found for index ' + gameStage;
+    }
+    var levelData = stageData.levels[level];
+    if (!levelData) {
+      throw 'No level data found for index ' + level;
+    }
     var nodeContainer = new createjs.Container();
     if (nodeId) {
       //The specific node is known
     } else {
       //This is a title screen for the stage + level
-      var title = new createjs.Text("hi", "20px Arial", gameData.fontColor);
+      var title = new createjs.Text(stageData.name, "20px Arial", gameData.fontColor);
       var titleBounds = title.getBounds();
       title.x = (width() - titleBounds.width) / 2;
       title.y = percentY(3);
       nodeContainer.addChild(title);
-      var description = new createjs.Text(gameData.description, "18px Arial", gameData.fontColor);
+      var description = new createjs.Text(levelData.description, "18px Arial", gameData.fontColor);
       description.lineWidth = width() - 20;
       var descriptionBounds = description.getBounds();
       description.x = (width() - descriptionBounds.width) / 2;
