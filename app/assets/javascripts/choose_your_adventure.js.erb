@@ -50,7 +50,54 @@ function cya(gameData) {
     playButton.x = (width() - playButtonBounds.width) / 2;
     playButton.y = percentY(90);
     mainScreenContainer.addChild(playButton);
+    playButton.addEventListener('click', function() {
+      var gameStage = 0;
+      var level = 0;
+      var node = null;
+      //eventually look up saved state somewhere
+      displayNode(gameStage, level, node);
+      stage.removeChild(mainScreenContainer);
+    });
     return mainScreenContainer;
   }
   stage.addChild(getMainScreen());
+
+  //pointer to current game node
+  var currentNodeContainer;
+
+  function displayNode(gameStage, level, nodeId) {
+    var nodeContainer = new createjs.Container();
+    if (nodeId) {
+      //The specific node is known
+    } else {
+      //This is a title screen for the stage + level
+      var title = new createjs.Text("hi", "20px Arial", gameData.fontColor);
+      var titleBounds = title.getBounds();
+      title.x = (width() - titleBounds.width) / 2;
+      title.y = percentY(3);
+      nodeContainer.addChild(title);
+      var description = new createjs.Text(gameData.description, "18px Arial", gameData.fontColor);
+      description.lineWidth = width() - 20;
+      var descriptionBounds = description.getBounds();
+      description.x = (width() - descriptionBounds.width) / 2;
+      description.y = percentY(15);
+      nodeContainer.addChild(description);
+      var playButton = new createjs.Text('Play', '25px Arial', '#ADD8E6');
+      var playButtonBounds = playButton.getBounds();
+      playButton.x = (width() - playButtonBounds.width) / 2;
+      playButton.y = percentY(90);
+      nodeContainer.addChild(playButton);
+      playButton.addEventListener('click', function() {
+        var node = 'start';
+        displayNode(gameStage, level, node);
+      });
+    }
+
+    if (currentNodeContainer) {
+      stage.removeChild(currentNodeContainer);
+    }
+    stage.addChild(nodeContainer);
+    stage.update();
+    currentNodeContainer = nodeContainer;
+  }
 }
