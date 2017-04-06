@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   #get '/about' => 'home#about'
   get '/join' => 'home#join'
   get '/thankyou' => 'home#thankyou'
+  get '/confirmation' => 'home#confirmation'
   get '/how-to' => 'home#howto'
   # Get Whack a Trump
   get 'whack-a-trump' => 'whack_a_trump#index'
