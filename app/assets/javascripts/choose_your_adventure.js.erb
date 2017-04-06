@@ -87,7 +87,7 @@ function cya(gameData) {
       description.x = (width() - descriptionBounds.width) / 2;
       description.y = percentY(10);
       nodeContainer.addChild(description);
-      _.each(nodeData.options.reverse(), function(option, i) {
+      _.each(nodeData.options, function(option, i) {
         var text = new createjs.Text(option.text, "14px Arial", gameData.fontColor);
         text.lineWidth = width() - 20;
         text.x = (width() - text.getBounds().width) / 2;

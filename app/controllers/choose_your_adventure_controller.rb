@@ -57,6 +57,12 @@ class ChooseYourAdventureController < ApplicationController
               :ref => :start,
               :text => "continue"
             }]
+          }, {
+            :id => :computer,
+            :type => :link,
+            :description => "The computer desktop is open. There are a few windows open",
+            :options => [{
+            }]
           }]
         }]
       }]
