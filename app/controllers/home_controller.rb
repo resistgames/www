@@ -14,4 +14,12 @@ class HomeController < ApplicationController
     @og_description = "Fight Trump. Join the Resistance. Build, play, and support Resist Games."
     @og_image = view_context.image_url "ogs/resist1.jpg"
   end
+
+  def howto
+    @og_url = request.original_url
+    @title = "How to Contribute Code"
+    @og_title = "Fight Trump With Code"
+    @og_description = "Join Resist Games and build Anti-Trump games with JavaScript, CSS, HTML, and more."
+    @og_image = view_context.image_url "ogs/fighttrump.jpg"
+  end
 end
